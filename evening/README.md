@@ -60,7 +60,7 @@ python3 run.py
 
 ### 定时任务
 
-`com.zixuan.eveningradio.plist`（launchd），每天 7:30 运行（受限于 macOS `pmset` 只能设置一个唤醒事件 6:20，所以早晚两档节目都在早上生成）。
+无定时任务——按需手动运行。双击桌面的 `生成夜读与放空.command` 即可一键生成新一期。
 
 ## 命名历史
 
