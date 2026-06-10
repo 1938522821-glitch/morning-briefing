@@ -102,6 +102,21 @@ def generate_section(section_key: str, context_text: str = "") -> str:
     return msg.content[0].text.strip()
 
 
+def generate_episode_title(full_text: str) -> str:
+    """提炼今晚节目里最值得关注的几个话题关键词，用于单集标题。"""
+    user = (
+        "以下是今晚播客节目的完整脚本。请提炼出今晚最值得关注的2-4个话题关键词或短语，"
+        "用「/」分隔，整体不超过30个字，不要标点编号、不要解释，直接输出关键词本身。\n\n"
+        f"{full_text[:8000]}"
+    )
+    msg = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=100,
+        messages=[{"role": "user", "content": user}],
+    )
+    return msg.content[0].text.strip()
+
+
 def generate_full_script(morning_script: str, topic_news: dict) -> tuple[str, list[dict]]:
     """
     返回 (完整脚本文本, 各段落列表[{key, title, text, tts_rate}])

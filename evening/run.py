@@ -38,6 +38,14 @@ def main():
     from tts_generator import synthesize_sections
     audio_path = synthesize_sections(sections)
 
+    # 3.5 提炼今晚话题关键词，写入 .meta.json（供播客单集标题使用）
+    from script_generator import generate_episode_title
+    import json
+    highlights = generate_episode_title(full_text)
+    print(f"今晚亮点：{highlights}")
+    meta_path = Path(audio_path).with_suffix(".meta.json")
+    meta_path.write_text(json.dumps({"highlights": highlights}, ensure_ascii=False), encoding="utf-8")
+
     # 4. 更新 Alexa feed + 播客 RSS feed
     from alexa_feed import update_feed
     update_feed(audio_path)
@@ -50,8 +58,9 @@ def main():
     import subprocess
     repo_dir = Path(__file__).parent.parent
     rel_audio = f"evening/audio/{Path(audio_path).name}"
+    rel_meta = f"evening/audio/{meta_path.name}"
     subprocess.run(["git", "-C", str(repo_dir), "add", "evening/feed.json", "evening/podcast.xml",
-                    "evening/cover.jpg", rel_audio], check=True)
+                    "evening/cover.jpg", rel_audio, rel_meta], check=True)
     subprocess.run(["git", "-C", str(repo_dir), "commit", "-m", f"evening radio {datetime.now().strftime('%Y-%m-%d')}"], check=True)
     import os
     remote = os.environ.get("GITHUB_REMOTE", "origin")

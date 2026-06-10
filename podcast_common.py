@@ -1,12 +1,22 @@
 """
 共享工具：生成播客封面图 + RSS feed（标准 podcast RSS，可被任意播客 App 订阅）。
 """
-import re
+import json
 import subprocess
 from pathlib import Path
-from datetime import datetime
 from email.utils import formatdate
 from xml.sax.saxutils import escape
+
+
+def load_episode_meta(audio_path: Path) -> dict:
+    """读取与音频文件同名的 .meta.json（如 20260610_briefing.meta.json）。"""
+    meta_path = audio_path.with_suffix(".meta.json")
+    if meta_path.exists():
+        try:
+            return json.loads(meta_path.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+    return {}
 
 FFPROBE = "/opt/homebrew/bin/ffprobe" if Path("/opt/homebrew/bin/ffprobe").exists() else "ffprobe"
 
@@ -66,16 +76,10 @@ def build_rss(channel_title: str, channel_desc: str, channel_link: str,
 
     items_xml = []
     for f in files:
-        m = re.match(r"(\d{8})_", f.name)
-        if m:
-            dt = datetime.strptime(m.group(1), "%Y%m%d")
-        else:
-            dt = datetime.fromtimestamp(f.stat().st_mtime)
-
         pub_date = formatdate(f.stat().st_mtime, usegmt=True)
         size = f.stat().st_size
         duration = _get_duration(str(f))
-        title = escape(title_fn(dt))
+        title = escape(title_fn(f))
         url = f"{audio_base_url}/{f.name}"
 
         items_xml.append(f"""
