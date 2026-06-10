@@ -70,7 +70,7 @@ def _get_duration(path: str) -> str:
 def build_rss(channel_title: str, channel_desc: str, channel_link: str,
                audio_base_url: str, audio_dir: str, pattern: str,
                title_fn, cover_url: str, output_path: str,
-               author: str = "Zixuan", category: str = "News",
+               author: str = "zLifeLog", category: str = "News",
                email: str = "zixuanwangg@gmail.com") -> None:
     files = sorted(Path(audio_dir).glob(pattern), reverse=True)
 

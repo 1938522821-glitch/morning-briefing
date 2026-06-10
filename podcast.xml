@@ -5,12 +5,12 @@
     <link>https://1938522821-glitch.github.io/morning-briefing</link>
     <language>zh-cn</language>
     <description>每天早上为你播报国际形势、AI与科技、财经市场、爱尔兰本地新闻和全球热点的中文播客</description>
-    <itunes:author>Zixuan</itunes:author>
+    <itunes:author>zLifeLog</itunes:author>
     <itunes:owner>
-      <itunes:name>Zixuan</itunes:name>
+      <itunes:name>zLifeLog</itunes:name>
       <itunes:email>zixuanwangg@gmail.com</itunes:email>
     </itunes:owner>
-    <managingEditor>zixuanwangg@gmail.com (Zixuan)</managingEditor>
+    <managingEditor>zixuanwangg@gmail.com (zLifeLog)</managingEditor>
     <itunes:image href="https://1938522821-glitch.github.io/morning-briefing/cover.jpg"/>
     <itunes:category text="News"/>
     <itunes:explicit>false</itunes:explicit>

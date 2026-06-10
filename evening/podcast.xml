@@ -5,12 +5,12 @@
     <link>https://1938522821-glitch.github.io/morning-briefing/evening</link>
     <language>zh-cn</language>
     <description>每晚一则寓言、历史或书籍故事，带你在恍然大悟中放松下来，再做一段呼吸练习、伴一段安眠音乐入睡的中文播客</description>
-    <itunes:author>Zixuan</itunes:author>
+    <itunes:author>zLifeLog</itunes:author>
     <itunes:owner>
-      <itunes:name>Zixuan</itunes:name>
+      <itunes:name>zLifeLog</itunes:name>
       <itunes:email>zixuanwangg@gmail.com</itunes:email>
     </itunes:owner>
-    <managingEditor>zixuanwangg@gmail.com (Zixuan)</managingEditor>
+    <managingEditor>zixuanwangg@gmail.com (zLifeLog)</managingEditor>
     <itunes:image href="https://1938522821-glitch.github.io/morning-briefing/evening/cover.jpg"/>
     <itunes:category text="News"/>
     <itunes:explicit>false</itunes:explicit>
