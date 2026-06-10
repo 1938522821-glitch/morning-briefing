@@ -6,6 +6,11 @@
     <language>zh-cn</language>
     <description>每晚陪你回顾今日要点、深聊一个话题、讲一段故事，再做一段放松练习的中文播客</description>
     <itunes:author>Zixuan</itunes:author>
+    <itunes:owner>
+      <itunes:name>Zixuan</itunes:name>
+      <itunes:email>zixuanwangg@gmail.com</itunes:email>
+    </itunes:owner>
+    <managingEditor>zixuanwangg@gmail.com (Zixuan)</managingEditor>
     <itunes:image href="https://1938522821-glitch.github.io/morning-briefing/evening/cover.jpg"/>
     <itunes:category text="News"/>
     <itunes:explicit>false</itunes:explicit>

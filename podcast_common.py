@@ -60,7 +60,8 @@ def _get_duration(path: str) -> str:
 def build_rss(channel_title: str, channel_desc: str, channel_link: str,
                audio_base_url: str, audio_dir: str, pattern: str,
                title_fn, cover_url: str, output_path: str,
-               author: str = "Zixuan", category: str = "News") -> None:
+               author: str = "Zixuan", category: str = "News",
+               email: str = "zixuanwangg@gmail.com") -> None:
     files = sorted(Path(audio_dir).glob(pattern), reverse=True)
 
     items_xml = []
@@ -94,6 +95,11 @@ def build_rss(channel_title: str, channel_desc: str, channel_link: str,
     <language>zh-cn</language>
     <description>{escape(channel_desc)}</description>
     <itunes:author>{escape(author)}</itunes:author>
+    <itunes:owner>
+      <itunes:name>{escape(author)}</itunes:name>
+      <itunes:email>{escape(email)}</itunes:email>
+    </itunes:owner>
+    <managingEditor>{escape(email)} ({escape(author)})</managingEditor>
     <itunes:image href="{escape(cover_url)}"/>
     <itunes:category text="{escape(category)}"/>
     <itunes:explicit>false</itunes:explicit>
