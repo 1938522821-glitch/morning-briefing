@@ -4,7 +4,7 @@
     <title>夜读与放空</title>
     <link>https://1938522821-glitch.github.io/morning-briefing/evening</link>
     <language>zh-cn</language>
-    <description>每晚陪你回顾今日要点、深聊一个话题、讲一段故事，再做一段放松练习的中文播客</description>
+    <description>每晚陪你回顾今日要点，用一则寓言讲透一个有趣的概念，再做一段呼吸放松练习、伴一段安眠音乐入睡的中文播客</description>
     <itunes:author>Zixuan</itunes:author>
     <itunes:owner>
       <itunes:name>Zixuan</itunes:name>
@@ -20,11 +20,11 @@
       <link>https://1938522821-glitch.github.io/morning-briefing/evening</link>
     </image>
     <item>
-      <title>夜读与放空 · 2026年06月10日 | 美伊冲突与霍尔木兹 / 台积电涨价供应链传导 / 切尔诺贝利谎言与真相 / 异乡生活与身份认同</title>
-      <pubDate>Wed, 10 Jun 2026 07:01:44 GMT</pubDate>
-      <enclosure url="https://1938522821-glitch.github.io/morning-briefing/evening/audio/20260610_evening.mp3" length="8102829" type="audio/mpeg"/>
+      <title>夜读与放空 · 2026年06月10日 | 美伊冲突与油价/台积电涨价/信息串联与群体回声/缅甸强征兵役</title>
+      <pubDate>Wed, 10 Jun 2026 13:25:44 GMT</pubDate>
+      <enclosure url="https://1938522821-glitch.github.io/morning-briefing/evening/audio/20260610_evening.mp3" length="18949269" type="audio/mpeg"/>
       <guid isPermaLink="false">20260610_evening.mp3</guid>
-      <itunes:duration>00:22:30</itunes:duration>
+      <itunes:duration>00:26:19</itunes:duration>
     </item>
   </channel>
 </rss>
