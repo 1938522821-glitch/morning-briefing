@@ -1,5 +1,5 @@
 """
-用 edge-tts 把晚安电台脚本转为 MP3，按板块分段生成（不同语速）再合并。
+用 edge-tts 把"深度思考"深度解读脚本转为 MP3，按板块分段生成再合并。
 """
 import asyncio
 import os
@@ -7,10 +7,7 @@ import subprocess
 from pathlib import Path
 from datetime import datetime
 import edge_tts
-from config import AUDIO_DIR, TTS_VOICE, TTS_PITCH
-
-
-SLEEP_MUSIC = Path(__file__).parent / "assets" / "sleep_music.mp3"
+from config import AUDIO_DIR, TTS_VOICE
 
 
 def _audio_dir() -> Path:
@@ -20,13 +17,13 @@ def _audio_dir() -> Path:
 
 
 async def _synthesize(text: str, out_path: str, rate: str = "+0%") -> None:
-    communicate = edge_tts.Communicate(text, TTS_VOICE, rate=rate, pitch=TTS_PITCH)
+    communicate = edge_tts.Communicate(text, TTS_VOICE, rate=rate)
     await communicate.save(out_path)
 
 
 def synthesize_sections(sections: list[dict]) -> str:
     """
-    把各板块分别合成 MP3（各自语速），再用 ffmpeg 拼接成一个文件。
+    把各板块分别合成 MP3，再用 ffmpeg 拼接成一个文件。
     返回最终 MP3 的路径。
     """
     audio_dir = _audio_dir()
@@ -41,21 +38,14 @@ def synthesize_sections(sections: list[dict]) -> str:
         parts.append(part_path)
         print("✓")
 
-    final_path = str(audio_dir / f"{date_str}_evening.mp3")
+    final_path = str(audio_dir / f"{date_str}_deepdive.mp3")
     list_file  = str(audio_dir / f"{date_str}_parts.txt")
 
-    concat_files = list(parts)
-    if SLEEP_MUSIC.exists():
-        concat_files.append(str(SLEEP_MUSIC))
-    else:
-        print(f"  （未找到安眠音乐素材：{SLEEP_MUSIC}，跳过）")
-
     with open(list_file, "w") as f:
-        for p in concat_files:
+        for p in parts:
             f.write(f"file '{p}'\n")
 
     ffmpeg_bin = "/opt/homebrew/bin/ffmpeg" if os.path.exists("/opt/homebrew/bin/ffmpeg") else "ffmpeg"
-    # 各分段语速/格式不完全一致，且最后接的安眠音乐采样率不同，统一重新编码避免拼接异常
     result = subprocess.run(
         [ffmpeg_bin, "-y", "-f", "concat", "-safe", "0", "-i", list_file,
          "-c:a", "libmp3lame", "-b:a", "96k", "-ar", "44100", final_path],

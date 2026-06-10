@@ -17,8 +17,6 @@ FEED_PATH = str(_BASE / "feed.json")
 # 公网 base URL：复用早报的 GitHub Pages 仓库，子路径 /evening
 BASE_URL = os.environ.get("BASE_URL", "https://1938522821-glitch.github.io/morning-briefing") + "/evening"
 
-# TTS 声音：温柔女声，适合晚间放松
+# TTS 声音：温柔女声，适合晚间放松（降低音调让声音更低沉柔和）
 TTS_VOICE = "zh-CN-XiaoxiaoNeural"
-
-# 早报脚本所在目录（用于"今日回顾"取材）
-MORNING_SCRIPT_DIR = _ROOT / "scripts"
+TTS_PITCH = "-15Hz"

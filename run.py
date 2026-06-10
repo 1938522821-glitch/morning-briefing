@@ -13,15 +13,19 @@ def main():
 
     # 1. 抓新闻
     print("【1/3】抓取新闻...")
-    from news_fetcher import fetch_all
+    from news_fetcher import fetch_all, get_recent_scripts
     news = fetch_all()
     for section, articles in news.items():
         print(f"  {section}: {len(articles)} 条")
 
+    recent_context = get_recent_scripts(days=1)
+    if recent_context:
+        print(f"  已读取最近一期节目内容（{len(recent_context)} 字），用于避免话题重复")
+
     # 2. 生成脚本
     print("\n【2/3】生成播客脚本（Claude）...")
     from script_generator import generate_full_script
-    full_text, sections = generate_full_script(news)
+    full_text, sections = generate_full_script(news, recent_context=recent_context)
 
     # 保存脚本备份
     from pathlib import Path

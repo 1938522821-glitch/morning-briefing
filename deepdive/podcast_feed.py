@@ -1,5 +1,6 @@
 """
-生成"夜读与放空"的标准 podcast RSS feed，可在任意播客 App 中订阅。
+生成"深度思考"的标准 podcast RSS feed。
+仅供 Spotify 订阅使用（不提交小宇宙），可以放开聊敏感的国际局势话题。
 """
 import re
 import sys
@@ -14,7 +15,7 @@ from config import AUDIO_DIR, BASE_URL
 def _title_fn(f: Path) -> str:
     m = re.match(r"(\d{8})_", f.name)
     dt = datetime.strptime(m.group(1), "%Y%m%d") if m else datetime.fromtimestamp(f.stat().st_mtime)
-    base = f"夜读与放空 · {dt.strftime('%Y年%m月%d日')}"
+    base = f"深度思考 · {dt.strftime('%Y年%m月%d日')}"
     highlights = load_episode_meta(f).get("highlights", "")
     return f"{base} | {highlights}" if highlights else base
 
@@ -22,16 +23,16 @@ def _title_fn(f: Path) -> str:
 def update_podcast_feed() -> None:
     base = Path(__file__).parent
     cover_path = base / "cover.jpg"
-    make_cover_image(str(cover_path), "夜读与放空", "故事 · 顿悟 · 放松 · 安眠", bg=(20, 20, 60))
+    make_cover_image(str(cover_path), "深度思考", "国际局势 · 深度解读", bg=(40, 20, 20), fg=(230, 220, 200))
     cover_url = f"{BASE_URL}/cover.jpg"
 
     build_rss(
-        channel_title="夜读与放空",
-        channel_desc="每晚一则寓言、历史或书籍故事，带你在恍然大悟中放松下来，再做一段呼吸练习、伴一段安眠音乐入睡的中文播客",
+        channel_title="深度思考",
+        channel_desc="每晚深入解读一个国际/地缘局势话题：来龙去脉、各方视角、可能走向，给关心世界的你",
         channel_link=BASE_URL,
         audio_base_url=f"{BASE_URL}/audio",
         audio_dir=AUDIO_DIR,
-        pattern="*_evening.mp3",
+        pattern="*_deepdive.mp3",
         title_fn=_title_fn,
         cover_url=cover_url,
         output_path=str(base / "podcast.xml"),

@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 venv/
 scripts/
+.DS_Store
+cron.log

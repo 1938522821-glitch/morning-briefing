@@ -62,7 +62,8 @@ def _format_articles(articles: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def generate_section(section_key: str, articles: list[dict], all_sections_preview: str = "") -> str:
+def generate_section(section_key: str, articles: list[dict], all_sections_preview: str = "",
+                      recent_context: str = "") -> str:
     cfg = SECTION_PROMPTS[section_key]
     date_str = datetime.now().strftime("%Y年%m月%d日")
     weekdays = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
@@ -79,12 +80,22 @@ def generate_section(section_key: str, articles: list[dict], all_sections_previe
         "用自然流畅的中文口语，避免书面腔。不要用标题、不要用编号列表，"
         "写成连续的播客脚本，直接就是主持人说的话。"
         "不要说「好的」「当然」「接下来我们」等废话开头。"
+        "如果某个话题在最近一期节目里已经讲过，不要原样重复——"
+        "如果有新进展、新角度，可以在此基础上更新或深化；"
+        "如果没有新内容，就跳过这个话题，把篇幅留给今天真正新的内容。"
+    )
+
+    recent_block = (
+        f"\n\n以下是最近一期节目讲过的内容，仅供你判断哪些话题已经讲过、避免重复——"
+        f"不要复述这些内容本身：\n{recent_context}\n"
+        if recent_context else ""
     )
 
     user = (
         f"请为「{cfg['title']}」板块写约 {cfg['target_words']} 字的播客脚本。\n\n"
         f"要求：{instruction}\n\n"
-        f"今日新闻原料：\n{articles_text}\n\n"
+        f"今日新闻原料：\n{articles_text}\n"
+        f"{recent_block}\n"
         f"{('今日节目整体预览（开场板块参考用）：' + chr(10) + all_sections_preview) if all_sections_preview else ''}"
         f"\n\n直接输出脚本正文，不要任何多余说明。"
     )
@@ -113,9 +124,10 @@ def generate_episode_title(full_text: str) -> str:
     return msg.content[0].text.strip()
 
 
-def generate_full_script(news: dict[str, list[dict]]) -> tuple[str, list[dict]]:
+def generate_full_script(news: dict[str, list[dict]], recent_context: str = "") -> tuple[str, list[dict]]:
     """
     返回 (完整脚本文本, 各段落列表[{title, text}])
+    recent_context: 最近一期节目的内容节选，用于提示 Claude 避免重复话题。
     """
     sections = []
 
@@ -125,7 +137,7 @@ def generate_full_script(news: dict[str, list[dict]]) -> tuple[str, list[dict]]:
     print("生成各板块脚本...")
     for key in content_keys:
         print(f"  [{SECTION_PROMPTS[key]['title']}]", end=" ", flush=True)
-        text = generate_section(key, news.get(key, []))
+        text = generate_section(key, news.get(key, []), recent_context=recent_context)
         sections.append({"key": key, "title": SECTION_PROMPTS[key]["title"], "text": text})
         print(f"✓ ({len(text)} 字)")
 

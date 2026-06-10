@@ -12,20 +12,10 @@ def main():
     print(f"晚安电台生成开始 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*50}\n")
 
-    # 1. 取材：今天早报脚本 + 新闻素材
-    print("【1/4】准备素材...")
-    from news_fetcher import get_morning_script, get_topic_news
-    morning_script = get_morning_script()
-    if morning_script:
-        print(f"  早报脚本：{len(morning_script)} 字")
-    else:
-        print("  未找到今天的早报脚本，今日回顾将自由发挥")
-    topic_news = get_topic_news()
-
-    # 2. 生成脚本
-    print("\n【2/4】生成播客脚本（Claude）...")
+    # 1. 生成脚本
+    print("【1/3】生成播客脚本（Claude）...")
     from script_generator import generate_full_script
-    full_text, sections = generate_full_script(morning_script, topic_news)
+    full_text, sections = generate_full_script()
 
     script_dir = Path(__file__).parent / "scripts"
     script_dir.mkdir(parents=True, exist_ok=True)
@@ -33,8 +23,8 @@ def main():
     script_path.write_text(full_text, encoding="utf-8")
     print(f"脚本已保存：{script_path}")
 
-    # 3. TTS 合成
-    print("\n【3/4】TTS 语音合成（edge-tts）...")
+    # 2. TTS 合成
+    print("\n【2/3】TTS 语音合成（edge-tts）...")
     from tts_generator import synthesize_sections
     audio_path = synthesize_sections(sections)
 
@@ -53,8 +43,8 @@ def main():
     from podcast_feed import update_podcast_feed
     update_podcast_feed()
 
-    # 5. 推送到 GitHub Pages（复用早报仓库的 evening/ 子目录）
-    print("\n【4/4】推送到 GitHub...")
+    # 3. 推送到 GitHub Pages（复用早报仓库的 evening/ 子目录）
+    print("\n【3/3】推送到 GitHub...")
     import subprocess
     repo_dir = Path(__file__).parent.parent
     rel_audio = f"evening/audio/{Path(audio_path).name}"
