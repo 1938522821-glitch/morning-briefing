@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
-    <title>晚安故事屋</title>
+    <title>夜读与放空</title>
     <link>https://1938522821-glitch.github.io/morning-briefing/evening</link>
     <language>zh-cn</language>
     <description>每晚陪你回顾今日要点、深聊一个话题、讲一段故事，再做一段放松练习的中文播客</description>
@@ -16,11 +16,11 @@
     <itunes:explicit>false</itunes:explicit>
     <image>
       <url>https://1938522821-glitch.github.io/morning-briefing/evening/cover.jpg</url>
-      <title>晚安故事屋</title>
+      <title>夜读与放空</title>
       <link>https://1938522821-glitch.github.io/morning-briefing/evening</link>
     </image>
     <item>
-      <title>晚安故事屋 · 2026年06月10日 | 美伊冲突与霍尔木兹 / 台积电涨价供应链传导 / 切尔诺贝利谎言与真相 / 异乡生活与身份认同</title>
+      <title>夜读与放空 · 2026年06月10日 | 美伊冲突与霍尔木兹 / 台积电涨价供应链传导 / 切尔诺贝利谎言与真相 / 异乡生活与身份认同</title>
       <pubDate>Wed, 10 Jun 2026 07:01:44 GMT</pubDate>
       <enclosure url="https://1938522821-glitch.github.io/morning-briefing/evening/audio/20260610_evening.mp3" length="8102829" type="audio/mpeg"/>
       <guid isPermaLink="false">20260610_evening.mp3</guid>
