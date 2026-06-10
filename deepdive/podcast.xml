@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>深度思考</title>
+    <link>https://1938522821-glitch.github.io/morning-briefing/deepdive</link>
+    <language>zh-cn</language>
+    <description>每晚深入解读一个国际/地缘局势话题：来龙去脉、各方视角、可能走向，给关心世界的你</description>
+    <itunes:author>Zixuan</itunes:author>
+    <itunes:owner>
+      <itunes:name>Zixuan</itunes:name>
+      <itunes:email>zixuanwangg@gmail.com</itunes:email>
+    </itunes:owner>
+    <managingEditor>zixuanwangg@gmail.com (Zixuan)</managingEditor>
+    <itunes:image href="https://1938522821-glitch.github.io/morning-briefing/deepdive/cover.jpg"/>
+    <itunes:category text="News"/>
+    <itunes:explicit>false</itunes:explicit>
+    <image>
+      <url>https://1938522821-glitch.github.io/morning-briefing/deepdive/cover.jpg</url>
+      <title>深度思考</title>
+      <link>https://1938522821-glitch.github.io/morning-briefing/deepdive</link>
+    </image>
+    <item>
+      <title>深度思考 · 2026年06月10日 | 美伊冲突升级 / 霍尔木兹海峡 / 强制外交与谈判并行 / 能源价格冲击</title>
+      <pubDate>Wed, 10 Jun 2026 15:34:12 GMT</pubDate>
+      <enclosure url="https://1938522821-glitch.github.io/morning-briefing/deepdive/audio/20260610_deepdive.mp3" length="8964956" type="audio/mpeg"/>
+      <guid isPermaLink="false">20260610_deepdive.mp3</guid>
+      <itunes:duration>00:12:27</itunes:duration>
+    </item>
+  </channel>
+</rss>
