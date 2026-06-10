@@ -1,0 +1,6 @@
+anthropic
+edge-tts
+feedparser
+requests
+python-dotenv
+Pillow

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>每日早报</title>
+    <link>https://1938522821-glitch.github.io/morning-briefing</link>
+    <language>zh-cn</language>
+    <description>每天早上为你播报国际形势、AI与科技、财经市场、爱尔兰本地新闻和全球热点的中文播客</description>
+    <itunes:author>Zixuan</itunes:author>
+    <itunes:image href="https://1938522821-glitch.github.io/morning-briefing/cover.jpg"/>
+    <itunes:category text="News"/>
+    <itunes:explicit>false</itunes:explicit>
+    <image>
+      <url>https://1938522821-glitch.github.io/morning-briefing/cover.jpg</url>
+      <title>每日早报</title>
+      <link>https://1938522821-glitch.github.io/morning-briefing</link>
+    </image>
+    <item>
+      <title>每日早报 · 2026年06月10日</title>
+      <pubDate>Wed, 10 Jun 2026 06:24:35 GMT</pubDate>
+      <enclosure url="https://1938522821-glitch.github.io/morning-briefing/audio/20260610_briefing.mp3" length="13634013" type="audio/mpeg"/>
+      <guid isPermaLink="false">20260610_briefing.mp3</guid>
+      <itunes:duration>00:37:52</itunes:duration>
+    </item>
+    <item>
+      <title>每日早报 · 2026年06月09日</title>
+      <pubDate>Tue, 09 Jun 2026 21:48:35 GMT</pubDate>
+      <enclosure url="https://1938522821-glitch.github.io/morning-briefing/audio/20260609_briefing.mp3" length="13414413" type="audio/mpeg"/>
+      <guid isPermaLink="false">20260609_briefing.mp3</guid>
+      <itunes:duration>00:37:15</itunes:duration>
+    </item>
+  </channel>
+</rss>
