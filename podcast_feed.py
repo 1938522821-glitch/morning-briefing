@@ -19,7 +19,8 @@ def _title_fn(f: Path) -> str:
 def update_podcast_feed() -> None:
     base = Path(__file__).parent
     cover_path = base / "cover.jpg"
-    make_cover_image(str(cover_path), "爱尔兰早咖啡", "国际 · AI · 科技 · 财经 · 爱尔兰")
+    make_cover_image(str(cover_path), "爱尔兰早咖啡", "国际 · AI · 科技 · 财经 · 爱尔兰",
+                     bg=(20, 46, 38), fg=(214, 196, 156))
     cover_url = f"{BASE_URL}/cover.jpg"
 
     build_rss(
