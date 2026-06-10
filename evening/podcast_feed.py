@@ -12,11 +12,12 @@ from config import AUDIO_DIR, BASE_URL
 
 
 def _title_fn(f: Path) -> str:
+    highlights = load_episode_meta(f).get("highlights", "")
+    if highlights:
+        return f"夜读与放空｜{highlights}"
     m = re.match(r"(\d{8})_", f.name)
     dt = datetime.strptime(m.group(1), "%Y%m%d") if m else datetime.fromtimestamp(f.stat().st_mtime)
-    base = f"夜读与放空 · {dt.strftime('%Y年%m月%d日')}"
-    highlights = load_episode_meta(f).get("highlights", "")
-    return f"{base} | {highlights}" if highlights else base
+    return f"夜读与放空 · {dt.strftime('%Y年%m月%d日')}"
 
 
 def update_podcast_feed() -> None:

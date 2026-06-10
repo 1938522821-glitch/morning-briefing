@@ -30,19 +30,19 @@ def synthesize_sections(sections: list[dict]) -> str:
     返回最终 MP3 的路径。
     """
     audio_dir = _audio_dir()
-    date_str  = datetime.now().strftime("%Y%m%d")
+    stamp     = datetime.now().strftime("%Y%m%d_%H%M")
     parts     = []
 
     for i, section in enumerate(sections):
-        part_path = str(audio_dir / f"{date_str}_part{i:02d}_{section['key']}.mp3")
+        part_path = str(audio_dir / f"{stamp}_part{i:02d}_{section['key']}.mp3")
         rate = section.get("tts_rate", "+0%")
         print(f"  TTS [{section['title']}] (rate {rate})", end=" ", flush=True)
         asyncio.run(_synthesize(section["text"], part_path, rate))
         parts.append(part_path)
         print("✓")
 
-    final_path = str(audio_dir / f"{date_str}_evening.mp3")
-    list_file  = str(audio_dir / f"{date_str}_parts.txt")
+    final_path = str(audio_dir / f"{stamp}_evening.mp3")
+    list_file  = str(audio_dir / f"{stamp}_parts.txt")
 
     concat_files = list(parts)
     if SLEEP_MUSIC.exists():
