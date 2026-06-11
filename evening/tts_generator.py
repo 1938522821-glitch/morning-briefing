@@ -43,26 +43,38 @@ def synthesize_sections(sections: list[dict]) -> str:
 
     final_path = str(audio_dir / f"{stamp}_evening.mp3")
     list_file  = str(audio_dir / f"{stamp}_parts.txt")
-
-    concat_files = list(parts)
-    if SLEEP_MUSIC.exists():
-        concat_files.append(str(SLEEP_MUSIC))
-    else:
-        print(f"  （未找到安眠音乐素材：{SLEEP_MUSIC}，跳过）")
+    voice_path = str(audio_dir / f"{stamp}_voice.mp3")
 
     with open(list_file, "w") as f:
-        for p in concat_files:
+        for p in parts:
             f.write(f"file '{p}'\n")
 
     ffmpeg_bin = "/opt/homebrew/bin/ffmpeg" if os.path.exists("/opt/homebrew/bin/ffmpeg") else "ffmpeg"
-    # 各分段语速/格式不完全一致，且最后接的安眠音乐采样率不同，统一重新编码避免拼接异常
+    # 各分段语速/格式不完全一致，统一重新编码避免拼接异常
     result = subprocess.run(
         [ffmpeg_bin, "-y", "-f", "concat", "-safe", "0", "-i", list_file,
-         "-c:a", "libmp3lame", "-b:a", "96k", "-ar", "44100", final_path],
+         "-c:a", "libmp3lame", "-b:a", "96k", "-ar", "44100", voice_path],
         capture_output=True,
     )
     if result.returncode != 0:
         raise RuntimeError(f"ffmpeg 拼接失败：{result.stderr.decode()}")
+
+    if SLEEP_MUSIC.exists():
+        # 安眠音乐素材本身音量很低（远低于人声），单独拼接听感上几乎"没有播放"，
+        # 这里在拼接时把它的音量提升后再接到人声末尾
+        result = subprocess.run(
+            [ffmpeg_bin, "-y", "-i", voice_path, "-i", str(SLEEP_MUSIC),
+             "-filter_complex",
+             "[1:a]volume=20dB[music];[0:a][music]concat=n=2:v=0:a=1[out]",
+             "-map", "[out]", "-c:a", "libmp3lame", "-b:a", "96k", "-ar", "44100", final_path],
+            capture_output=True,
+        )
+        if result.returncode != 0:
+            raise RuntimeError(f"ffmpeg 拼接安眠音乐失败：{result.stderr.decode()}")
+        os.remove(voice_path)
+    else:
+        print(f"  （未找到安眠音乐素材：{SLEEP_MUSIC}，跳过）")
+        os.rename(voice_path, final_path)
 
     for p in parts:
         os.remove(p)
