@@ -36,6 +36,9 @@ RSS_SOURCES = {
         "https://feeds.bbci.co.uk/news/world/rss.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
         "https://www.theguardian.com/world/rss",
+        "https://feeds.bbci.co.uk/news/rss.xml",
+        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+        "https://www.aljazeera.com/xml/rss/all.xml",
     ],
     "ai_tech": [
         "https://techcrunch.com/feed/",
@@ -52,11 +55,6 @@ RSS_SOURCES = {
         "https://www.irishtimes.com/arc/outboundfeeds/rss/",
         "https://www.thejournal.ie/feed/",
         "https://www.rte.ie/feeds/rss/?index=/news/&limit=20",
-    ],
-    "global_hot": [
-        "https://feeds.bbci.co.uk/news/rss.xml",
-        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-        "https://www.aljazeera.com/xml/rss/all.xml",
     ],
 }
 

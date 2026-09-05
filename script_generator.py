@@ -15,9 +15,15 @@ SECTION_PROMPTS = {
         "instruction": "写一段热情的播客开场白，像一个聪明幽默的朋友早上见面一样。提到今天是{date}，{weekday}。预告今天节目的几个亮点话题（从后面板块中挑两三个最有趣的）。语气轻松，偶尔开个小玩笑。",
     },
     "international": {
-        "title": "国际形势",
-        "target_words": 1400,
-        "instruction": "解读国际新闻，条数不固定——重要的事件多花时间深入讲（发生了什么→为什么重要→你的点评），次要的简单带过甚至跳过。要有观点，不要只念稿子。用播客主持人的口吻，像在和朋友聊天。",
+        "title": "国际与热点",
+        "target_words": 2400,
+        "instruction": (
+            "解读今天的国际新闻和全球热点，把两类内容自然融合在一起——"
+            "重要的国际事件多花时间深入讲（发生了什么→为什么重要→你的点评），"
+            "有意思的社会热点、趣事、争议话题则轻松带过，像朋友之间聊天一样。"
+            "条数不固定，按话题本身的分量决定篇幅，次要的简单带过甚至跳过。"
+            "严肃和轻松之间自然切换，不要生硬分区。要有观点，不要只念稿子。"
+        ),
     },
     "ai_tech": {
         "title": "AI 与科技",
@@ -39,11 +45,6 @@ SECTION_PROMPTS = {
             "如果某条新闻特别重要或特别有意思，可以多花时间深入讲。要有在当地生活的人才有的视角，接地气，"
             "对找工作、租房买房的听众有实用价值。"
         ),
-    },
-    "global_hot": {
-        "title": "全球热点",
-        "target_words": 1200,
-        "instruction": "选今天最热的全球话题，数量不限——少则1-2个深聊，多则3-4个简单带过，根据话题本身的分量决定篇幅。可以轻松一点，社会热点、趣事、争议话题都行。这是节目的「聊天区」，像朋友之间聊八卦一样，但要有深度。",
     },
     "outro": {
         "title": "结尾",
@@ -140,7 +141,7 @@ def generate_full_script(news: dict[str, list[dict]], recent_context: str = "") 
     sections = []
 
     # 先生成各内容板块（除开场/结尾）
-    content_keys = ["international", "ai_tech", "stocks", "ireland", "global_hot"]
+    content_keys = ["international", "ai_tech", "stocks", "ireland"]
 
     print("生成各板块脚本...")
     for key in content_keys:
