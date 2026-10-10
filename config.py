@@ -4,8 +4,9 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).parent / ".env")
 
-CLAUDE_API_KEY = os.environ["CLAUDE_API_KEY"]
-NEWSAPI_KEY    = os.environ.get("NEWSAPI_KEY", "")
+CLAUDE_API_KEY   = os.environ.get("CLAUDE_API_KEY", "")
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+NEWSAPI_KEY      = os.environ.get("NEWSAPI_KEY", "")
 
 # 音频输出目录（nginx 静态托管）
 _BASE          = Path(__file__).parent

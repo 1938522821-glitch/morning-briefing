@@ -2,11 +2,11 @@
 用 Claude 把原始新闻列表生成播客风格中文脚本。
 目标时长：约 60 分钟（~8500 字）。
 """
-import anthropic
+from openai import OpenAI
 from datetime import datetime
-from config import CLAUDE_API_KEY
+from config import DEEPSEEK_API_KEY
 
-client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
+client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com/v1")
 
 SECTION_PROMPTS = {
     "intro": {
@@ -109,13 +109,12 @@ def generate_section(section_key: str, articles: list[dict], all_sections_previe
         f"\n\n直接输出脚本正文，不要任何多余说明。"
     )
 
-    msg = client.messages.create(
-        model="claude-sonnet-4-6",
+    resp = client.chat.completions.create(
+        model="deepseek-chat",
         max_tokens=3000,
-        system=system,
-        messages=[{"role": "user", "content": user}],
+        messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
     )
-    return msg.content[0].text.strip()
+    return resp.choices[0].message.content.strip()
 
 
 def generate_episode_title(full_text: str) -> str:
@@ -125,12 +124,12 @@ def generate_episode_title(full_text: str) -> str:
         "用「/」分隔，整体不超过30个字，不要标点编号、不要解释，直接输出关键词本身。\n\n"
         f"{full_text[:8000]}"
     )
-    msg = client.messages.create(
-        model="claude-sonnet-4-6",
+    resp = client.chat.completions.create(
+        model="deepseek-chat",
         max_tokens=100,
         messages=[{"role": "user", "content": user}],
     )
-    return msg.content[0].text.strip()
+    return resp.choices[0].message.content.strip()
 
 
 def generate_full_script(news: dict[str, list[dict]], recent_context: str = "") -> tuple[str, list[dict]]:

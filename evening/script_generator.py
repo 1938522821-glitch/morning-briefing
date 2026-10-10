@@ -3,12 +3,12 @@
 结构：寓言/历史/书籍故事 → 故事揭晓 → 放松呼吸练习 → 晚安语
 目标时长：约 50 分钟。
 """
-import anthropic
+from openai import OpenAI
 from datetime import datetime, timedelta
 from pathlib import Path
-from config import CLAUDE_API_KEY
+from config import DEEPSEEK_API_KEY
 
-client = anthropic.Anthropic(api_key=CLAUDE_API_KEY)
+client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com/v1")
 
 SCRIPT_DIR = Path(__file__).parent / "scripts"
 
@@ -131,33 +131,45 @@ def generate_section(section_key: str, context_text: str = "", avoid_repeat_cont
         f"\n\n直接输出脚本正文，不要任何多余说明。"
     )
 
-    msg = client.messages.create(
-        model="claude-sonnet-4-6",
+    resp = client.chat.completions.create(
+        model="deepseek-chat",
         max_tokens=cfg.get("max_tokens", 3000),
-        system=system,
-        messages=[{"role": "user", "content": user}],
+        messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
     )
-    return msg.content[0].text.strip()
+    return resp.choices[0].message.content.strip()
+
+
+def _get_next_episode_number() -> int:
+    """从 podcast.xml 读取现有集数，返回下一集编号。"""
+    import xml.etree.ElementTree as ET
+    podcast_xml = Path(__file__).parent / "podcast.xml"
+    if not podcast_xml.exists():
+        return 1
+    try:
+        tree = ET.parse(podcast_xml)
+        items = tree.findall(".//item")
+        return len(items) + 1
+    except Exception:
+        return 1
 
 
 def generate_episode_title(full_text: str) -> str:
-    """生成今晚节目的单集标题：情绪词 · 故事核心。"""
+    """生成今晚节目的单集标题：第xx夜 · 故事核心。"""
+    ep_num = _get_next_episode_number()
     user = (
-        "以下是今晚睡前播客节目的完整脚本。请为这一集生成一个标题，格式是：\n"
-        "「情绪词 · 故事核心」\n"
-        "情绪词是1-3个字的中文词，表达今晚故事或放松练习带来的情绪/心境，"
-        "比如：慢慢来、放下、刚好、够了、轻一点、稳住、留白……\n"
-        "故事核心是4-10个字，概括今晚故事的主角或关键转折，要有画面感，"
-        "像散文标题一样，不要用冒号或括号，不要信息罗列，不要像新闻标题。\n"
-        "整体不超过15个字，直接输出标题本身，不要任何解释。\n\n"
+        "以下是今晚睡前播客节目的完整脚本。请为这一集生成故事核心部分的标题（4-10个字），"
+        "概括今晚故事的主角或关键转折，要有画面感，像散文标题一样，"
+        "不要用冒号或括号，不要信息罗列，不要像新闻标题。"
+        "直接输出这4-10个字，不要任何其他内容。\n\n"
         f"{full_text[:8000]}"
     )
-    msg = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=100,
+    resp = client.chat.completions.create(
+        model="deepseek-chat",
+        max_tokens=50,
         messages=[{"role": "user", "content": user}],
     )
-    return msg.content[0].text.strip()
+    story_core = resp.choices[0].message.content.strip()
+    return f"第{ep_num}夜 · {story_core}"
 
 
 def generate_full_script() -> tuple[str, list[dict]]:
