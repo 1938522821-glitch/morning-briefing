@@ -19,9 +19,30 @@ def _audio_dir() -> Path:
     return d
 
 
-async def _synthesize(text: str, out_path: str, rate: str = "+0%") -> None:
+async def _synthesize_edge(text: str, out_path: str, rate: str = "+0%") -> None:
     communicate = edge_tts.Communicate(text, TTS_VOICE, rate=rate, pitch=TTS_PITCH)
     await communicate.save(out_path)
+
+
+def _synthesize_say(text: str, out_path: str, rate: str = "+0%") -> None:
+    """macOS say fallback：edge-tts 不可用时使用。"""
+    import re
+    rate_val = int(re.sub(r"[^0-9\-]", "", rate.replace("+", "")) or "0")
+    wpm = max(80, int(200 * (1 + rate_val / 100)))
+    aiff_path = out_path.replace(".mp3", ".aiff")
+    subprocess.run(["say", "-v", "Tingting", "-r", str(wpm), "-o", aiff_path, text], check=True)
+    ffmpeg_bin = "/opt/homebrew/bin/ffmpeg" if os.path.exists("/opt/homebrew/bin/ffmpeg") else "ffmpeg"
+    subprocess.run([ffmpeg_bin, "-y", "-i", aiff_path, "-c:a", "libmp3lame", "-b:a", "96k", out_path],
+                   capture_output=True, check=True)
+    os.remove(aiff_path)
+
+
+def _synthesize(text: str, out_path: str, rate: str = "+0%") -> None:
+    try:
+        asyncio.run(_synthesize_edge(text, out_path, rate))
+    except Exception as e:
+        print(f"(edge-tts 失败: {type(e).__name__}，改用 macOS say)", end=" ", flush=True)
+        _synthesize_say(text, out_path, rate)
 
 
 def synthesize_sections(sections: list[dict]) -> str:
@@ -37,7 +58,7 @@ def synthesize_sections(sections: list[dict]) -> str:
         part_path = str(audio_dir / f"{stamp}_part{i:02d}_{section['key']}.mp3")
         rate = section.get("tts_rate", "+0%")
         print(f"  TTS [{section['title']}] (rate {rate})", end=" ", flush=True)
-        asyncio.run(_synthesize(section["text"], part_path, rate))
+        _synthesize(section["text"], part_path, rate)
         parts.append(part_path)
         print("✓")
 
